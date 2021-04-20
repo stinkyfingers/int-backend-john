@@ -1,20 +1,20 @@
-#Tech Spec - Teleport Challenge
+# Tech Spec - Teleport Challenge
 
-##Overview
+## Overview
 To be implemented:
 
 1. `Job` library for starting, stopping, and getting status and streamed logs of jobs.
 2. API that implements the `Job` library, permitting clients to call the 4 public methods.
 3. CLI Client that calls API, using command line args to specify API methods.
 
-##Job Library
+## Job Library
 `Job` type will include public fields:
 
 - Command
 - Args
 - ProcessID
 
-#####Implement methods for:
+##### Implement methods for:
 
 - Start
 	- Assure job command exists, e.g. `which <cmd>`.
@@ -30,14 +30,14 @@ To be implemented:
 	- Return "running/complete" and logs.
 - Stream logs
 
-#####Tradeoffs
+##### Tradeoffs
 - Killing the process, rather than sending SIGINT/SIGQUIT and waiting, comes with the risks associated with kill, e.g. lingering resources. However, it seems like the most user-intuitive option. Future versions could permit users to specify how they want to "stop" a job.
 - This implemenatation will prevent duplicate jobs from running simultaneously. There is conceivably some use in permitting redundant jobs, but it requires a more discussion around use cases (e.g. will this tool be used by customers in automation?)
 
-#####Limitations
+##### Limitations
 - For this milestone, mock DB with a global map rather than integrate with live database.
 
-##API
+## API
 Implement handlers for:
 
 - Start Job (unary)
