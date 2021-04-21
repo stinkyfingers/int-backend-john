@@ -17,7 +17,7 @@ To be implemented:
 ##### Implement methods for:
 
 - Start
-	- Assure job command exists, e.g. `which <cmd>`.
+	- Assure job command exists. Executables can be located in Go using `exec.LookPath()`.
 	- Assure that a duplicate command is not currently running by checking "DB".
 	- Execute job w/ args.
 	- Write job stdout & stderr to specified dir.
@@ -75,6 +75,78 @@ Include interceptors for:
 
 - Include client interceptors for:
 	- Authorization (stream & unary)
+
+*Examples:*
+
+- start
+
+Command: `client start top -n 2`
+
+Output: `Job: 12345`
+
+- stop
+
+Command: `client stop 12345`
+
+Output: `Job 12345 stopped`
+
+- status
+
+Command: `client status 12345`
+
+Output:
+
+```
+Job 12345 running
+
+Processes: 491 total, 3 running, 488 sleeping, 2531 threads                            08:33:06
+Load Avg: 2.13, 2.37, 2.51  CPU usage: 4.0% user, 5.89% sys, 90.9% idle
+SharedLibs: 389M resident, 68M data, 34M linkedit.
+MemRegions: 115316 total, 3751M resident, 134M private, 3922M shared.
+PhysMem: 16G used (2259M wired), 251M unused.
+VM: 2440G vsize, 2305M framework vsize, 136052(0) swapins, 178252(0) swapouts.
+Networks: packets: 2571594/2051M in, 1859599/622M out.
+Disks: 1541524/21G read, 1249721/22G written.
+
+PID    COMMAND      %CPU TIME     #TH    #WQ  #PORT MEM    PURG   CMPRS PGRP  PPID  STATE
+0      kernel_task  20.5 02:51:26 182/10 0    0     528M+  0B     0B    0     0     running
+1823   iTerm2       15.4 11:40.13 8/1    5    367+  116M-  4236K+ 32M-  1823  1     running
+
+
+Processes: 492 total, 2 running, 490 sleeping, 2524 threads                            08:36:09
+Load Avg: 2.27, 2.34, 2.47  CPU usage: 3.90% user, 6.4% sys, 90.4% idle
+SharedLibs: 390M resident, 68M data, 34M linkedit.
+MemRegions: 115939 total, 3759M resident, 136M private, 3923M shared.
+PhysMem: 16G used (2258M wired), 210M unused.
+VM: 2444G vsize, 2305M framework vsize, 136052(0) swapins, 178252(0) swapouts.
+Networks: packets: 2576368/2052M in, 1863488/623M out.
+Disks: 1542339/21G read, 1252689/22G written.
+
+PID    COMMAND      %CPU TIME     #TH   #WQ  #PORT MEM    PURG   CMPRS PGRP  PPID STATE
+0      kernel_task  17.2 02:52:04 182/9 0    0     521M   0B     0B    0     0    running
+2574   Microsoft Te 9.4  18:40.51 26    1    318   335M   0B     53M   2553  2553 sleeping
+```
+
+- logs
+
+Command: `client logs 12345`
+
+Output (streamed):
+
+```
+Processes: 491 total, 3 running, 488 sleeping, 2531 threads                            08:33:06
+Load Avg: 2.13, 2.37, 2.51  CPU usage: 4.0% user, 5.89% sys, 90.9% idle
+SharedLibs: 389M resident, 68M data, 34M linkedit.
+MemRegions: 115316 total, 3751M resident, 134M private, 3922M shared.
+PhysMem: 16G used (2259M wired), 251M unused.
+VM: 2440G vsize, 2305M framework vsize, 136052(0) swapins, 178252(0) swapouts.
+Networks: packets: 2571594/2051M in, 1859599/622M out.
+Disks: 1541524/21G read, 1249721/22G written.
+
+PID    COMMAND      %CPU TIME     #TH    #WQ  #PORT MEM    PURG   CMPRS PGRP  PPID  STATE
+0      kernel_task  20.5 02:51:26 182/10 0    0     528M+  0B     0B    0     0     running
+1823   iTerm2       15.4 11:40.13 8/1    5    367+  116M-  4236K+ 32M-  1823  1     running
+```
 
 ##### Limitations
 - Mocked OAuth, rather than integrating with live IdP.
